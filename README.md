@@ -4,17 +4,21 @@
 
 工作方向包括 **生成式出价、oCPD 双目标优化与 Agent 工具集成**。公开研究聚焦一个问题：预测转化率发生偏移时，如何在预算 / CPA 约束下保留转化，并判断复杂模型是否值得引入。
 
+Advertising algorithms engineer working on generative response modeling, constrained bidding and reproducible evaluation.
+
 ## 从这里开始
 
 | 想了解什么 | 推荐入口 |
 | --- | --- |
-| 研究问题、方案与运行方式 | [TrajectoryLab 中文介绍](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/README.zh-CN.md) |
-| 提升是否成立、在哪些条件下成立 | [确认结果、对照与适用边界](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/bidding-findings.md) |
+| 30 秒了解研究问题与结论 | [TrajectoryLab 中文介绍](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/README.zh-CN.md) |
+| 3 分钟核对核心结果 | [确认结果、对照与适用边界](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/bidding-findings.md) |
+| 本地运行、预期输出与复现限制 | [CPU 回放指南](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/reproduce.md) |
 | 生成模型怎么实现、为何没有直接带来更好决策 | [Flow 实现](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/src/trajectorylab/bidding_generative_learning.py) · [复核与机制诊断](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/bidding-generative-findings.md) |
+| 问题、假设和对照如何逐步演进 | [14 阶段研究记录](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/bidding-research-journal.md) |
 
 ## 代表项目 · [TrajectoryLab](https://github.com/KAMCHIU-LAB/trajectory-lab)
 
-基于公开 AuctionNet 构建的独立研究，重点包括：
+基于公开 AuctionNet 构建的独立研究。公开仓库覆盖模型实现、控制策略、实验设计与结果复核，重点包括：
 
 - **拆开预测与控制**：在同一响应模型下比较出价规则，检查转化、预算消耗与 CPA 违约的取舍。
 - **实现条件生成模型**：用 Flow Matching 联合采样不同候选动作的响应，比较分布决策、点预测和简单反馈。
@@ -23,6 +27,12 @@
 **局部确认结果**：pCVR 高估 50% 时，3 个冻结响应模型在 24 个新模拟市场相对冻结反馈基线，CPA 惩罚 score **+17.6%**、转化 **+8.4%**、CPA 违约频率 **−24.8 个百分点**。
 
 以上是自定义固定对手模拟器中的场景结论。低估场景仍有不足；Flow 相对强对照的额外决策价值尚未确认。完整记录区分开发集发现与独立确认，不将模拟提升解释为线上收益。
+
+### 近期研究：延迟反馈与决策价值
+
+将研究延伸到尚未回传的转化：建立事件级回传边界，在同一控制器下比较后验补回与简单基线，并用相同轨迹区分估计误差和决策收益。独立 24 市场确认的 score 增益为 **+1.21%**，未达预设 **+3%** 实用门槛；长延迟、高估场景仍有退化。后续 12 个控制配置均未通过晋级门槛，保留停止决定与失败分析。
+
+[延迟反馈结果与边界](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/bidding-delayed-findings.md) · [控制策略对照](https://github.com/KAMCHIU-LAB/trajectory-lab/blob/main/docs/bidding-delayed-strategy-findings.md)
 
 ## 其他工程实践
 
